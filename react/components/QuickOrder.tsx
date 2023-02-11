@@ -3,12 +3,24 @@ import { useMutation, useLazyQuery } from 'react-apollo'
 import UPDATE_CART from '../graphql/updateCart.graphql' 
 import GET_PRODUCT from '../graphql/getProductBySku.graphql'
 
+import { useCssHandles } from 'vtex.css-handles';
+
+ import './styles.css'
+
 const QuickOreder =()=> {
     const [inputText, setInputText] = useState("")
     const [search, setSearch] = useState("")
     const [error, setError] = useState("")
     const [getProductData, {data: product}]= useLazyQuery(GET_PRODUCT)
     const [addToCart] = useMutation(UPDATE_CART)
+
+    const CSS_HANDLES = [
+        "quickOrder__title",   
+        "quickOrder__button", 
+        "quickOrder__label" 
+        ]
+   
+    const handles = useCssHandles(CSS_HANDLES)
 
     const handleChange =(e:any)=> {
         setInputText(e.target.value)
@@ -60,10 +72,10 @@ const QuickOreder =()=> {
     }
 
     return <div>
-            <h2>Compra rápida de VTEX U</h2>
+            <h2 className={handles["quickOrder__title"]}>Compra rápida de VTEX U</h2>
             <form onSubmit={searchProduct}>
                 <div className='flex flex-column pb3'>
-                    <label htmlFor="sku" className='pb3'>
+                    <label htmlFor="sku" className={`${handles["quickOrder__label"]} pb3`}>
                         Ingresa el número de SKU
                     </label>
                     <div className='flex'>
@@ -76,7 +88,10 @@ const QuickOreder =()=> {
                         </p>
                     </div>
                 </div>
-                <input type="submit" value="AÑADIR AL CARRITO" />
+                <input
+                  className={handles["quickOrder__button"]}
+                  type="submit" 
+                  value="AÑADIR AL CARRITO" />
             </form>
         </div>
 }
