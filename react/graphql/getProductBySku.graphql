@@ -1,0 +1,9 @@
+query($sku: ID!) {
+    product(identifier: { 
+    field: sku, 
+    value: $sku
+    }) {
+        productId
+        productName
+    }
+}
