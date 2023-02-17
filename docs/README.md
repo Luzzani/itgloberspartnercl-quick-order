@@ -1,114 +1,111 @@
-📢 Use this project, [contribute](https://github.com/{OrganizationName}/{AppName}) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).
+# Compra rápida
 
-# APP NAME
+Input que permitirá una compra rápida en mi sitio VTEX IO"
 
-<!-- DOCS-IGNORE:start -->
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-<!-- DOCS-IGNORE:end -->
+![image](../assets/img/quick-order.jpeg)
 
-Under the app's name, you should explain the topic, giving a **brief description** of its **functionality** in a store when installed.
+## Configuración
 
-Next, **add media** (either an image of a GIF) with the rendered components, so that users can better understand how the app works in practice. 
+### Paso 1 - Clonación del repositorio
 
-![Media Placeholder](https://user-images.githubusercontent.com/52087100/71204177-42ca4f80-227e-11ea-89e6-e92e65370c69.png)
+[Clonar](https://github.com/vtex-apps/react-app-template) el repositorio react-app-template para empezar con lo básico en cuanto a configuración inicial, una vez en la pagina del repositorio de github; hay la opción que dice `Use this template`, presionar ahí y llenar la información necesaria para crear el propio repositorio
 
-## Configuration 
+Luego, acceda al directorio del repositorio usando su terminal.
 
-In this section, you first must **add the primary instructions** that will allow users to use the app's blocks in their store, such as:
+### Paso 2 - Editar el Manifest.json
 
-1. Adding the app as a theme dependency in the `manifest.json` file;
-2. Declaring the app's main block in a given theme template or inside another block from the theme.
+Una vez en el directorio del repositorio, es hora de editar el archivo `manifest.json` de la react app template.
 
-Remember to add a table with all blocks exported by the app and their descriptions. You can verify an example of it on the [Search Result documentation](https://vtex.io/docs/components/all/vtex.search-result@3.56.1/). 
+Una vez que esté en el archivo, debe reemplazar los valores `vendor`, `name`, `version`, `title` y `description`. `vendor` es el nombre de la cuenta en la que está trabajando, `name` es el nombre de como se va a llamar su componente como dependencia, `version` la versión inicial con la que se empezará a trabajar, `title` título del componente que no está sujeto a como se va a declarar como dependencia por lo que puede ser cualquier título que desee y `description` pequeña descripción para lo que sirve el componente. Por ejemplo:
 
-Next, add the **props table** containing your block's props. 
+```json
+{
+  "vendor": "itgloberspartnercl",
+  "name": "quick-order",
+  "version": "0.0.1",
+  "title": "Compra rápida",
+  "description": "Input que permitirá una compra rápida en mi sitio VTEX IO",
+  ...
+}
+```
 
-If the app exports more than one block, create several tables - one for each block. For example:
+### Paso 3 - Configurar el builder store
 
-### `block-1` props
+Para que el componente funcione correctamente se debe declara el builder store en el `manifest.json`, de esta manera:
 
-| Prop name    | Type            | Description    | Default value                                                                                                                               |
-| ------------ | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | 
-| `XXXXX`      | `XXXXXX`       | XXXXXXXX         | `XXXXXX`        |
+```json
+{
+  "builders": {
+    ...
+    "store": "0.x"
+  },
+  ...
+}
+```
 
+Luego de eso hay que crear una carpeta llamada store en la carpeta superior del componente, esa carpeta `store` tendrá un archivo llamado `interfaces.json`, así:
 
-### `block-2` props
+```json
+{
+  "quick-order": {                        
+    "component": "QuickOrder",           
+    "render": "client"                   
+}
+```
 
-| Prop name    | Type            | Description    | Default value                                                                                                                               |
-| ------------ | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | 
-| `XXXXX`      | `XXXXXX`       | XXXXXXXX         | `XXXXXX`        |
+### Paso 4 - Instalar dependencies necesarias
 
-Prop types are: 
+En el `manifest.json` se debe declarar las dependencias que van a ser utilizadas en el componente deseado. Por ejemplo:
 
-- `string` 
-- `enum` 
-- `number` 
-- `boolean` 
-- `object` 
-- `array` 
+```json
+...
+"dependencies": {
+    "vtex.css-handles": "0.x",
+    "vtex.checkout-graphql": "0.x",
+    "vtex.search-graphql": "0.x"
+},
+...
+```
 
-When documenting a prop whose type is `object` or `array` another prop table will be needed. You can create it following the example below:
+### Paso 5 - Editar el package.json
 
-- `propName` object:
+El primer `package.json` es el global, está al lado del `manifest.json`, vamos a cambiar su `version` y `name`, así:
 
-| Prop name    | Type            | Description    | Default value                                                                                                                               |
-| ------------ | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | 
-| `XXXXX`      | `XXXXXX`       | XXXXXXXX         | `XXXXXX`        |
+```json
+{
+  "version": "0.0.1",
+  "name": "quick-order",
+  ...
+}
+```
 
+Y repetiremos el mismo proceso con el `package.json` que hay dentro de la carpeta de react.
 
-Remember to also use this Configuration section to  **showcase any necessary disclaimer** related to the app and its blocks, such as the different behavior it may display during its configuration. 
+### Paso 6 - Instalar dependencias de react
 
-## Modus Operandi *(not mandatory)*
+Para este paso debes ingresar a la carpeta de react, y una vez allí debes ejecutar en tu consola 
+```json
+itgloberspartnercl-quick-order/react> yarn
+```
+para que se instalen todas las dependencias necesarias
 
-There are scenarios in which an app can behave differently in a store, according to how it was added to the catalog, for example. It's crucial to go through these **behavioral changes** in this section, allowing users to fully understand the **practical application** of the app in their store.
+### Paso 7 - Crear componente
 
-If you feel compelled to give further details about the app, such as it's **relationship with the VTEX admin**, don't hesitate to use this section. 
+En la carpeta de react se debe crear el archivo con el que se va a trabajar, en este caso : `QuickOrder.tsx`, luego crear su carpeta de componentes y empezar a desarrollar
 
-## Customization
+### Paso 8 - Ejecute un preview de la tienda
 
-The first thing that should be present in this section is the sentence below, showing users the recipe pertaining to CSS customization in apps:
+Entonces ha llegado el momento de cargar todos los cambios que realizó en sus archivos locales a la plataforma. Para eso, use el comando `vtex link`.
 
-`In order to apply CSS customizations in this and other blocks, follow the instructions given in the recipe on [Using CSS Handles for store customization](https://vtex.io/docs/recipes/style/using-css-handles-for-store-customization).`
+Si el proceso se ejecuta sin ningún error, se mostrará el siguiente mensaje: `Aplicación vinculada con éxito`. Luego, ejecute el comando `vtex browser` para abrir una ventana del navegador que tenga su tienda vinculada.
 
-Thereafter, you should add a single column table with the available CSS handles for the app, like the one below. Note that the Handles must be ordered alphabetically.
+Esto le permitirá ver los cambios aplicados en tiempo real, a través de la cuenta y el espacio de trabajo en el que está trabajando.
 
-| CSS Handles |
-| ----------- | 
-| `XXXXX` | 
-| `XXXXX` | 
-| `XXXXX` | 
-| `XXXXX` | 
-| `XXXXX` |
+## Dependencies
 
+1. "vtex.checkout-graphql"
+2. "vtex.search-graphql"
+3. "vtex.css-handles"
 
-If there are none, add the following sentence instead:
-
-`No CSS Handles are available yet for the app customization.`
-
-<!-- DOCS-IGNORE:start -->
-
-## Contributors ✨
-
-Thanks goes to these wonderful people:
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind are welcome!
-
-<!-- DOCS-IGNORE:end -->
-
----- 
-
-Check out some documentation models that are already live: 
-- [Breadcrumb](https://github.com/vtex-apps/breadcrumb)
-- [Image](https://vtex.io/docs/components/general/vtex.store-components/image)
-- [Condition Layout](https://vtex.io/docs/components/all/vtex.condition-layout@1.1.6/)
-- [Add To Cart Button](https://vtex.io/docs/components/content-blocks/vtex.add-to-cart-button@0.9.0/)
-- [Store Form](https://vtex.io/docs/components/all/vtex.store-form@0.3.4/)
+## Contributors
+Lucas Martin Luzzani
